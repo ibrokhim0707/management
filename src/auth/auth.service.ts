@@ -16,7 +16,7 @@ export class AuthService {
   async register({ email, name, password }: RegisterDto) {
     const user = await this.prisma.user.findUnique({ where: { email: email } });
     if (user) {
-      throw new BadRequestException('Email already exists');
+      throw new BadRequestException();
     }
     const hashedPass = await hash(password, 12);
     const newUser = await this.prisma.user.create({
@@ -40,11 +40,11 @@ export class AuthService {
   async login({ email, password }: LoginDto) {
     const user = await this.prisma.user.findUnique({ where: { email: email } });
     if (!user) {
-      throw new BadRequestException('Invalid email or password');
+      throw new BadRequestException();
     }
     const isMatch = await compare(password, user.password);
     if (!isMatch) {
-      throw new BadRequestException('Invalid email or password');
+      throw new BadRequestException();
     }
     const token = await this.jwt.sign(
       { id: user.id },

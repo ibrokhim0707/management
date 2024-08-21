@@ -16,9 +16,7 @@ export class CategoriesService {
       where: { name: name },
     });
     if (existingCategory) {
-      throw new BadRequestException(
-        `Category with name ${name} already exists`,
-      );
+      throw new BadRequestException();
     }
     const category = await this.prisma.category.create({
       data: {
@@ -37,7 +35,7 @@ export class CategoriesService {
       where: { id: id },
     });
     if (!category) {
-      throw new NotFoundException(`Category with ${id} not found`);
+      throw new NotFoundException();
     }
     return category;
   }
@@ -49,7 +47,6 @@ export class CategoriesService {
     });
     if (existingCategory) {
       throw new BadRequestException(
-        `Category with name ${name} already exists`,
       );
     }
     const updateCategory = await this.prisma.category.update({
@@ -64,6 +61,6 @@ export class CategoriesService {
     await this.prisma.category.delete({
       where: { id: id },
     });
-    return `Category with  ${id} has been deleted`;
+    return ;
   }
 }

@@ -19,7 +19,7 @@ export class HistoryService {
       include: { user: true, todo: true },
     });
     if (!history) {
-      throw new NotFoundException(`History with${id} not found`);
+      throw new NotFoundException();
     }
     return history;
   }
@@ -27,6 +27,6 @@ export class HistoryService {
   async remove(id: string) {
     await this.findOne(id);
     await this.prisma.history.delete({ where: { id: id } });
-    return `History with ${id} has been deleted`;
+    return ;
   }
 }
